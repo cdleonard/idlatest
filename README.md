@@ -57,9 +57,9 @@ arm64.
 * Copy trace-idle-latency.sh to the target system and run it
 * Copy trace.dat back next to idlatest.ipynb
 * Run the notebook
-** Start jupyter-notebook
-** Go to http://localhost:8888/notebooks/idlatest.ipynb
-** Kernel -> Restart & Run All
+    * Start jupyter-notebook
+    * Go to http://localhost:8888/notebooks/idlatest.ipynb
+    * Kernel -> Restart & Run All
 
 ## Author
 
