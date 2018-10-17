@@ -1,4 +1,4 @@
-# Idle Lantency Estimator
+# Idle Latency Estimator
 
 This tool attempts to estimate linux CPU idle wakeup latency based on
 tracepoints.
