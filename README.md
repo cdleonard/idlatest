@@ -47,7 +47,9 @@ Following config options are required:
 * CONFIG_TRACER_SNAPSHOT=y
 * CONFIG_ENABLE_DEFAULT_TRACERS=y
 
-Tracepoints for clock_event_device are out-of-tree.
+Tracepoints for clock_event_device are out-of-tree, you need this patch:
+
+https://bitbucket.sw.nxp.com/users/nxf25340/repos/linux-imx/commits/3f9c1254a197679d6e2675a611be758e1e0e13dc
 
 Tracepoints for ipi_raise/ipi_enter/ipi_exit are only available on arm and
 arm64.
