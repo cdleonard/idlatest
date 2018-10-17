@@ -63,6 +63,10 @@ arm64.
     * Go to http://localhost:8888/notebooks/idlatest.ipynb
     * Kernel -> Restart & Run All
 
+Both the host system (running the notebook) and the target need to have
+`trace-cmd` installed. The trace.dat format is mostly compatible so default
+versions from debian/ubuntu or yocto should work fine.
+
 ## Author
 
 [Leonard Crestez](mailto:leonard.crestez@nxp.com)
