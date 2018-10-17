@@ -71,4 +71,4 @@ versions from debian/ubuntu or yocto should work fine.
 
 [Leonard Crestez](mailto:leonard.crestez@nxp.com)
 
-Feel free to contact with questions or git send-email patches.
+Feel free to contact with questions or `git send-email` patches.
