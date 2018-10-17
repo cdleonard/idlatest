@@ -6,11 +6,38 @@ tracepoints.
 ## Python requirements
 
 * numpy
-* matplotlib
 * pandas
-* jupyter-notebook
+* matplotlib
+* jupyter notebook
 
-These should be installable with apt-get or pip
+These can be installed in many ways.
+
+#### Installing with debian packages for python2:
+
+```
+# apt-get install python-matplotlib python-pandas python-notebook
+$ python2 -m notebook --notebook-dir "CHECKOUT_DIR"
+```
+
+#### Installing with debian packages for python3:
+
+```
+# apt install python3-pandas python3-matplotlib jupyter-notebook
+$ jupyter-notebook --notebook-dir "CHECKOUT_DIR"
+```
+
+#### Installing with pip
+
+Using pip instead of distro packages should be very portable.
+
+Running inside a virtualenv avoid contaminating your environment:
+```
+# apt-get install virtualenv
+$ virtualenv venv
+$ . ./venv/bin/activate
+$ pip install notebook pandas matplotlib
+$ jupyter-notebook --notebook-dir "CHECKOUT_DIR"
+```
 
 ## Kernel requirements
 
@@ -33,4 +60,6 @@ arm64.
 
 ## Author
 
-Leonard Crestez <leonard.crestez@nxp.com>
+[Leonard Crestez](mailto:leonard.crestez@nxp.com)
+
+Feel free to contact with questions or git send-email patches.
