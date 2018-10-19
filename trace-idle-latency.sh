@@ -13,8 +13,10 @@ This calls trace-cmd record to generate trace data for idlatest
     -h --help: Show this message.
     -s --sleep SLEEP_TIME: Duration of test (default 10)
 
-    --dummy-load: Run a dummy load
-        The dummy load runs many small per-cpu sleeps instead of single sleep
+    --no-dummy-load: Just run a single sleep under trace-cmd
+    --dummy-load: Run a dummy load (default)
+        The dummy load runs many small sleeps on all cpus. This ensures that
+        all cpus enter and exit idle many times and provides lots of data.
 MSG
 }
 
