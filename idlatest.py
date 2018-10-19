@@ -106,7 +106,7 @@ def trace_cmd_report(arg='trace.dat'):
         # per-tracepoint handling:
         tracepoint = m.group('tracepoint')
         traceprint = m.group('traceprint').strip()
-        if tracepoint == 'cpu_idle':
+        if tracepoint in ['cpu_idle', 'cpu_idle_exit']:
             extra = parse_traceprint_cpu_idle(traceprint)
         elif tracepoint == 'ipi_raise':
             extra = parse_traceprint_ipi_raise(traceprint)
@@ -143,6 +143,7 @@ class IdleLatencyEstimator:
         self.df = pandas.DataFrame()
         self.df['cpu'] = pandas.Series(dtype=int)
         self.df['state'] = pandas.Series(dtype=int)
+        self.df['state_attempt'] = pandas.Series(dtype=int)
         self.df['wake_src'] = pandas.Series(dtype=str)
         self.df['enter_ts'] = pandas.Series(dtype=numpy.float64)
         self.df['wake_ts'] = pandas.Series(dtype=numpy.float64)
@@ -176,6 +177,7 @@ class IdleLatencyEstimator:
         kw = dict(
                 cpu=cpu,
                 state=cpu_data.idle_state,
+                state_attempt=cpu_data.idle_state_attempt,
 
                 enter_ts=numconv(cpu_data.idle_enter_ts),
                 wake_ts=numconv(cpu_data.idle_wake_ts),
@@ -197,12 +199,25 @@ class IdleLatencyEstimator:
         if tracepoint == 'cpu_idle':
             if item['state'] >= 0:
                 cpu_data.idle_state = item['state']
+                cpu_data.idle_state_attempt = cpu_data.idle_state
                 cpu_data.idle_enter_ts = ts
                 cpu_data.idle_wake_ts = None
                 cpu_data.idle_wake_src = ''
                 cpu_data.idle_exit_ts = None
             elif item['state'] < 0:
                 cpu_data.idle_exit_ts = ts
+
+        elif tracepoint == 'cpu_idle_exit':
+            # Optionally determine the real state!
+
+            item_state = item['state']
+            if item_state < 0:
+                # No idle state was actually entered, cpuidle driver returned error
+                cpu_data.idle_state = None
+            elif cpu_data.idle_state is not None:
+                # Note the real state that was entered.
+                cpu_data.idle_state = item['state']
+
         elif tracepoint == 'ipi_raise':
             for target_cpu in iter_set_bits(item['target_mask']):
                 self.on_wake_event(self.get_cpu_data(target_cpu), ts, 'ipi')
