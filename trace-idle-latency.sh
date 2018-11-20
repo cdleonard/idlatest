@@ -117,6 +117,7 @@ main_record()
     else
         cmd+=(sleep "$opt_sleep")
     fi
+    echo "RUN ${cmd[@]}" >&2
     exec "${cmd[@]}"
 }
 
