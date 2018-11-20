@@ -101,8 +101,8 @@ main_record()
     if grep -q 'ipi:.*' /sys/kernel/debug/tracing/available_events; then
         event_list+=("ipi:*")
     fi
-    event_list+=($(grep power:cpu_idle /sys/kernel/debug/tracing/available_events))
-    event_list+=($(grep timer:clock_event /sys/kernel/debug/tracing/available_events))
+    trace_if_avail power:cpu_idle
+    trace_if_avail timer:clock_event
     trace_if_avail irq:irq_handler_entry
     trace_if_avail irq:irq_handler_exit
 
