@@ -102,7 +102,7 @@ main_record()
         event_list+=("ipi:*")
     fi
     trace_if_avail power:cpu_idle
-    trace_if_avail timer:clock_event
+    trace_if_avail timer:clock_event*
     trace_if_avail irq:irq_handler_entry
     trace_if_avail irq:irq_handler_exit
 
