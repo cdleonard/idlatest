@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+
 import re
 import subprocess
 import pandas
