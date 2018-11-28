@@ -111,6 +111,12 @@ Both the host system (running the notebook) and the target need to have
 `trace-cmd` installed. The trace.dat format is mostly compatible so default
 versions from debian/ubuntu or yocto should work fine.
 
+## TODO
+
+* Include sample data
+* Run on non-imx and non-arm systems
+* Upstream additional tracepoints
+
 ## Author
 
 [Leonard Crestez](mailto:leonard.crestez@nxp.com)
