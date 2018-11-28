@@ -5,7 +5,7 @@ tracepoints. It can be used to measure cpuidle_state.exit_latency in a CPU and
 SOC-independent way using the tracepoint infrastructure offered by linux.
 
 It does not require hardware instrumentation of the target system (such as
-probing voltages) and does not conflict with any specific workloads.
+probing voltages) and can be combined with arbitrary workloads.
 
 This tool analyzes tracepoint data and reports a histogram of observed wakeup
 latencies. The real exit_latency values are noticeable as "spikes" in the data.
