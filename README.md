@@ -1,7 +1,51 @@
 # Idle Latency Estimator
 
 This tool attempts to estimate linux CPU idle wakeup latency based on
-tracepoints.
+tracepoints. It can be used to measure cpuidle_state.exit_latency in a CPU and
+SOC-independent way using the tracepoint infrastructure offered by linux.
+
+It does not require hardware instrumentation of the target system (such as
+probing voltages) and does not conflict with any specific workloads.
+
+This tool analyzes tracepoint data and reports a histogram of observed wakeup
+latencies. The real exit_latency values are noticeable as "spikes" in the data.
+
+## General approach
+
+The exit_latency is defined as the interval between when a wakeup signal is
+received and when the CPU can start executing code again. This is done by
+examining all power:cpu_idle exit events and attempting to find the wakeup
+source and a timestamp for it.
+
+Wakeup sources do not generally have timestamps attached, but some do. In
+particular:
+ * IPIs are sent by software running on another core and timestamp is
+automatically associated to the ipi:ipi_raise event. This is currently only
+available on arm/arm64.
+ * When the kernel goes to sleep it arms timers through a generic
+clock_event_device.set_next_event callback which takes wakeup time as a
+parameter. A tracepoint can be added for this.
+
+In theory timestamps from various peripherals could be used (for example PTP)
+but luckly IPIs and clock_events are very common.
+
+### Limitations
+
+Wakeups that come from sources without timestamps will confound the data.
+
+#### Coupled states
+
+It is common for idle states to be "coupled" and multiple CPUs, this is generally
+implemented by having all cpus in a cluster enter a shallow state and only
+moving to the deep state with the last CPU.
+
+Drivers for cpuidle can report this (the return value from enter func) however:
+ * This result value is not exposed via tracepoints
+ * Many SOC-specific drivers don't do this (it's hard)
+ * The generic ARM PSCI driver can't do this (PSCI limitation)
+
+In practice this means the latency histogram for deeper states will include
+values for shallower states.
 
 ## Python requirements
 
