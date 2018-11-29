@@ -134,7 +134,20 @@ def iter_set_bits(arg):
 
 class IdleLatencyEstimator:
     class CpuState:
-        idle_state = None
+        __slots__ = (
+                'idle_state',
+                'idle_state_attempt',
+
+                'idle_wake_src',
+
+                'idle_enter_ts',
+                'idle_wake_ts',
+                'idle_exit_ts',
+        )
+
+        def __init__(self):
+            for attr in self.__slots__:
+                setattr(self, attr, None)
 
     def __init__(self):
         self.reset()
